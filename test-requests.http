@@ -1,0 +1,22 @@
+### call the test API
+GET http://jjtsts808.c2aeb6bfdzf6d7hh.westeurope.azurecontainer.io:8080/api/todos
+
+
+### call the main web app, hello world
+GET https://jjsampepythonapp.azurewebsites.net
+
+
+### call the main web app API
+GET https://jjsampepythonapp.azurewebsites.net/api/data
+
+
+### call the main web app, delagating to container
+POST https://jjsampepythonapp.azurewebsites.net/api/todo
+Content-Type: application/json
+
+{
+    "id": 10,
+    "title": "AI Bootcamp",
+    "description": "Preperation of demos for AI Bootcamp",
+    "completed": false
+}
