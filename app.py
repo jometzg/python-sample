@@ -1,4 +1,5 @@
-# samnple flask app. One route to return a name from the environment variables
+# Sample Python Flask app. 
+# One route to return a name from the environment variables
 # and another route to return the body of a POST request as JSON, delegated to
 # a second remote API endpoint.
 
