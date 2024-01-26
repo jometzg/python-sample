@@ -1,17 +1,27 @@
-### call the test API
-GET http://jjtsts808.c2aeb6bfdzf6d7hh.westeurope.azurecontainer.io:8080/api/todos
+### a series of test API calls to demonstrate features of Azure App Service
+@mainsampleapp=XXXX
+@sampleapp2=YYYY
+@publicapi=ZZZZ.AAAA
 
 
 ### call the main web app, hello world
-GET https://jjsampepythonapp.azurewebsites.net
+GET https://{{mainsampleapp}}.azurewebsites.net
 
 
 ### call the main web app API
-GET https://jjsampepythonapp.azurewebsites.net/api/data
+### this grabs a value from the app settings
+GET https://{{mainsampleapp}}.azurewebsites.net/api/data
 
 
-### call the main web app, delagating to container
-POST https://jjsampepythonapp.azurewebsites.net/api/todo
+### there is a test API which represents a third-party API
+### call the public-facing version of the test API
+GET http://{{publicapi}}.westeurope.azurecontainer.io:8080/api/todos
+
+
+
+### call the main web app, delegating to third-party API
+### this is all with public endpoints
+POST https://{{mainsampleapp}}.azurewebsites.net/api/todo
 Content-Type: application/json
 
 {
@@ -20,3 +30,37 @@ Content-Type: application/json
     "description": "Preperation of demos for AI Bootcamp",
     "completed": false
 }
+
+### call the second web app, delegating to private API
+### has url config http://10.0.2.4:8080/api/todos
+### this is using the VNet integration feature of App Service
+POST https://{{sampleapp2}}.azurewebsites.net/api/todo
+Content-Type: application/json
+
+{
+    "id": 10,
+    "title": "AI Bootcamp",
+    "description": "Preperation of demos for AI Bootcamp",
+    "completed": false
+}
+
+### staging slots for reliable deployments
+### call the second web app staging slot API
+GET https://{{sampleapp2}}-staging.azurewebsites.net/api/data
+
+
+### call the second web app staging slot, delegating to private container
+### has url config http://10.0.2.4:8080/api/todos
+POST https://{{sampleapp2}}-staging.azurewebsites.net/api/todo
+Content-Type: application/json
+
+{
+    "id": 10,
+    "title": "AI Bootcamp",
+    "description": "Preperation of demos for AI Bootcamp",
+    "completed": false
+}
+
+### secrets management with app settings and Key Vault
+### call the python2 endpint and grab a KV secret
+GET https://{{sampleapp2}}.azurewebsites.net/api/data
